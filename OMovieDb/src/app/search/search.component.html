@@ -1,0 +1,33 @@
+<input type="text" class="form-control" (input)="onSearchBarChange($event)">
+
+<ng-template #threeDots>
+    <a>...</a>
+</ng-template>
+
+<ng-template #noPosterAvailable>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"/>
+</ng-template>
+
+<ul>
+    <li *ngFor="let movie of movieResults">
+        <div class="inline-div">
+            <h2>{{movie.Title}}</h2> 
+            <h3>Year of release: {{movie.Year}}</h3>
+            <img *ngIf="movie.Poster != 'N/A'; else noPosterAvailable" src={{movie.Poster}}/>
+            <button class="btn btn-info">More info</button>
+        </div>
+    </li>
+</ul>
+
+<p *ngIf="tooManyResults">Too many results ... specify search term.</p>
+<p *ngIf="movieNotFound">Title not found</p>
+
+<br class="medium-break"/>
+
+<div class="page-navigation" >
+    <a *ngIf="totalPages > 10" href="#">&laquo;</a>
+    <span *ngFor="let page of pagnationNavigation">
+        <a *ngIf="isANumber(page); else threeDots " (click)='sendToPage($event)' attr.page-num={{page}} href="#" >{{page}}</a>
+    </span>
+    <a *ngIf="totalPages > 10" href="#">&raquo;</a>
+</div>
